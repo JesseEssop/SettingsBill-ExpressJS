@@ -94,7 +94,6 @@ module.exports = function SettingsFactory() {
         getTotalCallCost,
         getTotalCost,
         totalClassName,
-        CriticalLevelReached,
-        recordAction
+        CriticalLevelReached
     }
 }
