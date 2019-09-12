@@ -6,7 +6,7 @@ const SettingsBill = require('./function/settings-bill')
 const app = express();
 const settingsBill = SettingsBill();
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
@@ -33,21 +33,17 @@ app.post('/settings', function (req, res) {
 });
 
 app.post('/action', function (req, res) {
-    // settingsBill.recordAction(req.body.billItemTypeWithSettings);
-    const typeChosen = req.body.billItemTypeWithSettings;
-    if (typeChosen === 'call') {
-        settingsBill.makeCall();
-    } else if (typeChosen === 'sms') {
-        settingsBill.sendSms();
-    }
+    settingsBill.recordAction(req.body.billItemTypeWithSettings);
     res.redirect('/');
 });
 
 app.get('/actions', function (req, res) {
-
+    res.render('actions',{actions: settingsBill.Actions() });
 });
 
-app.get('/actions/:type', function (req, res) {
+app.get('/actions/:billItemTypeWithSettings', function (req, res) {
+    const billItemTypeWithSettings = req.params.billItemTypeWithSettings
+    res.render('actions',{actions: settingsBill.ActionType(billItemTypeWithSettings) });
 
 });
 

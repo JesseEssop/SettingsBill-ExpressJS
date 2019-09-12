@@ -1,3 +1,5 @@
+let moment = require('moment');
+
 module.exports = function SettingsFactory() {
 
     var smsCost = 0;
@@ -6,6 +8,8 @@ module.exports = function SettingsFactory() {
     var criticalLevel = 0;
     var callCostTotal = 0;
     var smsCostTotal = 0;
+
+    var actionList = [];
 
 
 
@@ -79,6 +83,31 @@ module.exports = function SettingsFactory() {
         }
     }
 
+    function recordAction(action){
+        var cost = 0;
+        if (action === 'call') {
+            makeCall();
+            cost = callCost.toFixed(2)
+        } else if (action === 'sms') {
+            sendSms();
+            cost = smsCost.toFixed(2);
+        }
+
+        actionList.push({
+            type: action,
+            price: 'R' + cost,
+            timestamp: moment().fromNow()
+        })
+    }
+
+    function Actions(){
+        return actionList;
+    }
+
+    function ActionType(type){
+        return actionList.filter((action) => action.type === type);
+    }
+
     return {
         setCallCost,
         getCallCost,
@@ -94,6 +123,9 @@ module.exports = function SettingsFactory() {
         getTotalCallCost,
         getTotalCost,
         totalClassName,
-        CriticalLevelReached
+        CriticalLevelReached,
+        recordAction,
+        Actions, 
+        ActionType
     }
 }
