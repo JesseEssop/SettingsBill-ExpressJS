@@ -74,16 +74,21 @@ module.exports = function SettingsFactory() {
     }
 
     function totalClassName() {
-        if (CriticalLevelReached()) {
-            return "critical"
-        }
+        if (getCriticalLevel() !== 0) {
+            if (CriticalLevelReached()) {
+                return "danger"
+            }
 
-        if (getTotalCost() >= getWarningLevel()) {
-            return "warning"
+            else if (getTotalCost() >= getWarningLevel()) {
+                return "warning"
+            }
+            else {
+                return "safe"
+            }
         }
     }
 
-    function recordAction(action){
+    function recordAction(action) {
         var cost = 0;
         if (action === 'call') {
             makeCall();
@@ -100,11 +105,11 @@ module.exports = function SettingsFactory() {
         })
     }
 
-    function Actions(){
+    function Actions() {
         return actionList;
     }
 
-    function ActionType(type){
+    function ActionType(type) {
         return actionList.filter((action) => action.type === type);
     }
 
@@ -125,7 +130,7 @@ module.exports = function SettingsFactory() {
         totalClassName,
         CriticalLevelReached,
         recordAction,
-        Actions, 
+        Actions,
         ActionType
     }
 }

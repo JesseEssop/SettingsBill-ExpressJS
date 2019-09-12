@@ -6,7 +6,7 @@ const SettingsBill = require('./function/settings-bill')
 const app = express();
 const settingsBill = SettingsBill();
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
@@ -19,8 +19,14 @@ app.get('/', function (req, res) {
     res.render('index', {
         sms: settingsBill.getTotalSmsCost(),
         call: settingsBill.getTotalCallCost(),
-        total: settingsBill.getTotalCost()
+        total: settingsBill.getTotalCost(),
+        callCost: settingsBill.getCallCost(),
+        smsCost: settingsBill.getSmsCost(),
+        warningLvl: settingsBill.getWarningLevel(),
+        criticalLvl: settingsBill.getCriticalLevel(),
+        level: settingsBill.totalClassName()
     });
+    
 });
 
 app.post('/settings', function (req, res) {
@@ -38,16 +44,16 @@ app.post('/action', function (req, res) {
 });
 
 app.get('/actions', function (req, res) {
-    res.render('actions',{actions: settingsBill.Actions() });
+    res.render('actions', { actions: settingsBill.Actions() });
 });
 
 app.get('/actions/:billItemTypeWithSettings', function (req, res) {
     const billItemTypeWithSettings = req.params.billItemTypeWithSettings
-    res.render('actions',{actions: settingsBill.ActionType(billItemTypeWithSettings) });
+    res.render('actions', { actions: settingsBill.ActionType(billItemTypeWithSettings) });
 
 });
 
-const PORT = process.env.PORT || 3011;
+const PORT = process.env.PORT || 3012;
 
 app.listen(PORT, function () {
     console.log("App started at port:", PORT)
