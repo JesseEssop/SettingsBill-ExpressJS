@@ -81,12 +81,12 @@ describe('Settings-bill tests', function () {
             settingsInstance.setSmsCost(2.5);
             settingsInstance.setWarningLevel(10);
             settingsInstance.setCriticalLevel(20);
-
+            
             settingsInstance.makeCall();
             settingsInstance.makeCall();
             settingsInstance.makeCall();
             settingsInstance.makeCall();
-            settingsInstance.makeCall();
+        
 
             assert.equal("warning", settingsInstance.totalClassName())
         });
@@ -97,6 +97,7 @@ describe('Settings-bill tests', function () {
             settingsInstance.setCallCost(3.8);
             settingsInstance.setSmsCost(2.5);
             settingsInstance.setWarningLevel(10);
+            settingsInstance.setCriticalLevel(15);
        
             settingsInstance.makeCall();
             settingsInstance.makeCall();
@@ -104,7 +105,7 @@ describe('Settings-bill tests', function () {
             settingsInstance.makeCall();
             settingsInstance.makeCall();
 
-            assert.equal("critical", settingsInstance.totalClassName())
+            assert.equal("danger", settingsInstance.totalClassName())
         });
 
         it("it should stop the Total Callcost from increasing when the critical level has been reached", function () {
@@ -120,7 +121,7 @@ describe('Settings-bill tests', function () {
             settingsInstance.makeCall();
             settingsInstance.makeCall();
 
-            assert.equal("critical", settingsInstance.totalClassName());
+         assert.equal("danger", settingsInstance.totalClassName());
             assert.equal(11.4, settingsInstance.getTotalCallCost())
         });
 
@@ -137,7 +138,7 @@ describe('Settings-bill tests', function () {
             settingsInstance.makeCall();
             settingsInstance.makeCall();
             
-            assert.equal("critical", settingsInstance.totalClassName());
+            assert.equal("danger", settingsInstance.totalClassName());
             assert.equal(11.4, settingsInstance.getTotalCallCost());
 
             settingsInstance.setCriticalLevel(20);  
