@@ -90,19 +90,24 @@ module.exports = function SettingsFactory() {
 
     function recordAction(action) {
         var cost = 0;
-        if (action === 'call') {
-            makeCall();
-            cost = callCost.toFixed(2)
-        } else if (action === 'sms') {
-            sendSms();
-            cost = smsCost.toFixed(2);
+        if (CriticalLevelReached()) {
+            return "danger"
         }
+        else if (!CriticalLevelReached()) {
+            if (action === 'call') {
+                makeCall();
+                cost = callCost.toFixed(2)
+            } else if (action === 'sms') {
+                sendSms();
+                cost = smsCost.toFixed(2);
+            }
 
-        actionList.push({
-            type: action,
-            price: 'R' + cost,
-            timestamp: moment().fromNow()
-        })
+            actionList.push({
+                type: action,
+                price: 'R' + cost,
+                timestamp: moment().fromNow()
+            })
+        }
     }
 
     function Actions() {
